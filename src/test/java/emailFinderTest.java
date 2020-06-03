@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.io.*;
 import java.io.File;
 import java.util.Scanner;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -85,5 +86,29 @@ public class emailFinderTest {
         }
         assertEquals(0, c);
 
+    }
+    @Test
+    @DisplayName("URL does not work correctly")
+    void testInvalidUrlError() {
+        PageFetcher x = new PageFetcher();
+        assertThrows(EmailFinderException.class, () -> x.get("abcd"));
+    }
+    @Test
+    @DisplayName("name of the file error")
+    void testInvalidFileError() {
+        PageFetcher x = new PageFetcher();
+        assertThrows(EmailFinderException.class, () -> x.get("test.html"));
+    }
+    @Test
+    @DisplayName("Does not take local files in system")
+    void testGetStringEmpty() {
+        PageFetcher x = new PageFetcher();
+        assertThrows(EmailFinderException.class, () -> x.getString("xyz.html"));
+    }
+    @Test
+    @DisplayName("URL error")
+    void testGetStringUrl() {
+        PageFetcher x = new PageFetcher();
+        assertThrows(EmailFinderException.class, () -> x.getString("https://facetbook.com"));
     }
 }

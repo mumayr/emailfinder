@@ -51,13 +51,17 @@
       <artifactId>jsoup</artifactId>
       <version>1.13.1</version>
     </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>2.23.4</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
-
     <plugins>
       <!--Started-->
-
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
@@ -87,6 +91,7 @@
           <effort>Max</effort>
           <threshold>Low</threshold>
           <xmlOutput>true</xmlOutput>
+          <failOnError>false</failOnError>
         </configuration>
         <executions>
           <execution>
@@ -105,13 +110,11 @@
       </plugin>
 
       <plugin>
-
         <!-- executes junit tests -->
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>${surefire.version}</version>
       </plugin>
-
       <plugin>
         <!-- Produces 2 kinds of outputs:
              1. a 'fat' jar which contains this app as well as its dependencies
