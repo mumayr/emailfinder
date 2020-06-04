@@ -3,12 +3,16 @@ package edu.depaul.email;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-
+import java.util.*;
 import java.io.*;
 import java.io.File;
 import java.util.Scanner;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -110,5 +114,30 @@ public class emailFinderTest {
     void testGetStringUrl() {
         PageFetcher x = new PageFetcher();
         assertThrows(EmailFinderException.class, () -> x.getString("https://facetbook.com"));
+    }
+
+
+    @ParameterizedTest
+    @ValueSource(strings = {"keiji@att.net", "nelson@me.com", "johnbob@gmail.com", "psharpe@live.com", "paina@comcast.net", "abc@att.net", "depaul@me.com", "billyboib@gmail.com", "deeznuts@live.com", "theysuck@comcast.net"})
+    void testingOutPut(String inputs){
+        StorageService storage = new StorageService();
+        EmailFinder fix = new EmailFinder();
+        PageCrawler test = new PageCrawler(storage);
+        test.crawl("C:\\Users\\Moham\\OneDrive\\Desktop\\FinalProjectSend\\EmailFinderWebsite\\MidtermProject\\Html\\midterm3.Html");
+        Set<String> hset = new HashSet<>();
+        hset = test.getEmails();
+        assertTrue(hset.contains(inputs));
+    }
+    @ParameterizedTest
+    @ValueSource(strings = {"C:\\Users\\Moham\\OneDrive\\Desktop\\FinalProjectSend\\EmailFinderWebsite\\MidtermProject\\Html\\midterm3.Html"})
+    void testGoodLinks(String inputs){
+        StorageService storage = new StorageService();
+        EmailFinder fix = new EmailFinder();
+        PageCrawler test = new PageCrawler(storage);
+        test.crawl("C:\\Users\\Moham\\OneDrive\\Desktop\\FinalProjectSend\\EmailFinderWebsite\\MidtermProject\\Html\\midterm3.Html");
+        Set<String> life = new HashSet<>();
+        life = test.getGoodLinks();
+        assertTrue(life.contains(inputs));
+
     }
 }
